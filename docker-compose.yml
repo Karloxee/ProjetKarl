@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  php-app-1:
+    image: karloxe/devopscar:${BUILD_NUMBER}  # Utilisation de l'image PHP officielle sur Docker Hub
+    container_name: web1
+    ports:
+      - "8081:80"  # Expose l'application sur le port 8081
+#    volumes:
+#      - ./app:/var/www/html  # Monte le code source dans le conteneur
+    environment:
+      - DB_HOST=192.168.27.189  # Adresse IP de la VM avec MariaDB (sans port)
+      - DB_NAME=devopscar
+      - DB_USER=devopscar
+      - DB_PASS=devopscar
+    networks:
+      - app_network
+
+  php-app-2:
+    image: karloxe/devopscar:${BUILD_NUMBER}   # Deuxième instance de l'application
+    container_name: web2
+    ports:
+      - "8082:80"  # Expose l'application sur un port différent (8082)
+ #   volumes:
+ #     - ./app:/var/www/html
+    environment:
+      - DB_HOST=192.168.27.189
+      - DB_NAME=devopscar
+      - DB_USER=devopscar
+      - DB_PASS=devopscar
+    networks:
+      - app_network
+
+networks:
+  app_network:
