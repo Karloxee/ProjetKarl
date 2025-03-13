@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'dnais1210/devopscar'
+        DOCKER_IMAGE = 'karloxe/devopscar'
         DOCKER_CREDENTIALS = 'docker-hub-credentials'
     }
 
     stages {
         stage('Cloner le code') {
             steps {
-                git branch: 'main', url: 'https://github.com/ibrahimbakayoko/devopscar.git'
+                git branch: 'master', url: 'https://github.com/Karloxee/ProjetKarl.git'
             }
         }
 
