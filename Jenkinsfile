@@ -34,7 +34,8 @@ pipeline {
         stage('Déployer avec Docker Compose') {
             steps {
                 script {
-                   // sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose down"
+                   sh "export BUILD_NUMBER=${BUILD_NUMBER} 
+                    //&& docker-compose down"
                    //  sh "docker build --no-cache"
                     sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose  up -d"
                 }
