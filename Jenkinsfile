@@ -13,22 +13,18 @@ pipeline {
             }
         }
 
-        stage('Tests PHPUnit') {
+     stage('Tests PHPUnit') {
             steps {
-                script {
-                    sh '''
-                        if [ -f composer.json ]; then
-                            composer install --no-interaction --prefer-dist
-                        fi
-
-                        if [ -f vendor/bin/phpunit ]; then
-                            vendor/bin/phpunit --colors=always
-                        else
-                            echo "PHPUnit non installé ou pas de tests trouvés"
-                            exit 1
-                        fi
-                    '''
-                }
+                sh '''
+                    echo "🔎 Vérification de PHPUnit..."
+                    if command -v phpunit >/dev/null 2>&1; then
+                        echo "✅ PHPUnit détecté — lancement des tests"
+                        phpunit --colors=always
+                    else
+                        echo "❌ PHPUnit non trouvé. Veuillez l’installer globalement ou via Composer."
+                        exit 1
+                    fi
+                '''
             }
         }
 
