@@ -13,6 +13,25 @@ pipeline {
             }
         }
 
+        stage('Tests PHPUnit') {
+            steps {
+                script {
+                    sh '''
+                        if [ -f composer.json ]; then
+                            composer install --no-interaction --prefer-dist
+                        fi
+
+                        if [ -f vendor/bin/phpunit ]; then
+                            vendor/bin/phpunit --colors=always
+                        else
+                            echo "PHPUnit non installé ou pas de tests trouvés"
+                            exit 1
+                        fi
+                    '''
+                }
+            }
+        }
+
         stage('Construire l’image Docker') {
             steps {
                 script {
@@ -34,13 +53,10 @@ pipeline {
         stage('Déployer avec Docker Compose') {
             steps {
                 script {
-                   sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose down" 
-                    // "&& docker-compose down"
-                   //  sh "docker build --no-cache"
-                    sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose  up -d"
+                    sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose down"
+                    sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose up -d"
                 }
             }
         }
     }
 }
-
