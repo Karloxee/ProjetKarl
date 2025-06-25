@@ -16,15 +16,16 @@ pipeline {
         stage('Tests PHPUnit') {
             steps {
                 sh '''
-                    echo "🔎 Vérification de PHPUnit..."
+                    echo "Vérification de PHPUnit..."
                     if command -v phpunit >/dev/null 2>&1; then
-                        echo "✅ PHPUnit détecté — lancement des tests"
+                        echo "PHPUnit détecté — lancement des tests"
                         mkdir -p build/logs
                         phpunit --colors=always \
                                 --display-deprecations \
                                 --do-not-fail-on-deprecation \
                                 --log-junit build/logs/junit.xml \
-                                -c phpunit.xml
+                                -c phpunit --colors=always -c ProjetKarl/phpunit.xml
+
                     else
                         echo "PHPUnit non trouvé. Veuillez l’installer globalement ou via Composer."
                         exit 1
