@@ -19,8 +19,8 @@ pipeline {
                     echo "🔎 Vérification de PHPUnit..."
                     if command -v phpunit >/dev/null 2>&1; then
                         echo "PHPUnit détecté — lancement des tests"
-                        mkdir -p /ProjetKarl/build/logs
-                        phpunit --colors=always --log-junit /ProjetKarl/build/logs/junit.xml -c /ProjetKarl/phpunit.xml
+                        mkdir -p build/logs
+                        phpunit --colors=always --log-junit build/logs/junit.xml -c phpunit.xml
                     else
                         echo "PHPUnit non trouvé. Veuillez l’installer globalement ou via Composer."
                         exit 1
