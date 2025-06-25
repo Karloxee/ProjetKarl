@@ -9,7 +9,7 @@ services:
 #    volumes:
 #      - ./app:/var/www/html  # Monte le code source dans le conteneur
     environment:
-      - DB_HOST=192.168.27.189  # Adresse IP de la VM avec MariaDB (sans port)
+      - DB_HOST=192.168.1.178 # Adresse IP de la VM avec MariaDB (sans port)
       - DB_NAME=devopscar
       - DB_USER=devopscar
       - DB_PASS=devopscar
@@ -24,7 +24,7 @@ services:
  #   volumes:
  #     - ./app:/var/www/html
     environment:
-      - DB_HOST=192.168.27.189
+      - DB_HOST=192.168.1.178
       - DB_NAME=devopscar
       - DB_USER=devopscar
       - DB_PASS=devopscar
