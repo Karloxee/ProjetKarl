@@ -12,13 +12,15 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/Karloxee/ProjetKarl.git'
             }
         }
-         stage('Tests PHPUnit') {
+
+        stage('Tests PHPUnit') {
             steps {
                 sh '''
                     echo "🔎 Vérification de PHPUnit..."
                     if command -v phpunit >/dev/null 2>&1; then
                         echo "PHPUnit détecté — lancement des tests"
-                        phpunit --colors=always -c phpunit.xml
+                        mkdir -p /ProjetKarl/build/logs
+                        phpunit --colors=always --log-junit /ProjetKarl/build/logs/junit.xml -c /ProjetKarl/phpunit.xml
                     else
                         echo "PHPUnit non trouvé. Veuillez l’installer globalement ou via Composer."
                         exit 1
