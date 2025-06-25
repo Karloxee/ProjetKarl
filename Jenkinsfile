@@ -23,13 +23,13 @@ pipeline {
                         echo "Répertoire d'exécution actuel : $(pwd)"
                         ls -l phpunit.xml || echo "phpunit.xml introuvable ici"
 
-                        mkdir -p build/logs build/coverage-html
+                        mkdir -p build/logs
 
                         phpunit --colors=always \
                                 --display-deprecations \
                                 --do-not-fail-on-deprecation \
+                                --cache-result-file build/.phpunit.result.cache \
                                 --log-junit build/logs/junit.xml \
-                                --coverage-html build/coverage-html \
                                 -c /ProjetKarl/phpunit.xml
                     else
                         echo "PHPUnit non trouvé. Veuillez l’installer globalement ou via Composer."
@@ -42,7 +42,6 @@ pipeline {
         stage('Rapport de tests') {
             steps {
                 junit 'build/logs/junit.xml'
-                archiveArtifacts artifacts: 'build/coverage-html/**', fingerprint: true
             }
         }
 
