@@ -24,7 +24,7 @@ pipeline {
                                 --display-deprecations \
                                 --do-not-fail-on-deprecation \
                                 --log-junit build/logs/junit.xml \
-                                -c ProjetKarl/phpunit.xml
+                                -c phpunit.xml
                     else
                         echo "PHPUnit non trouvé. Veuillez l’installer globalement ou via Composer."
                         exit 1
