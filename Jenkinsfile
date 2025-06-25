@@ -19,11 +19,12 @@ pipeline {
                     echo "Vérification de PHPUnit..."
                     if command -v phpunit >/dev/null 2>&1; then
                         echo "PHPUnit détecté — lancement des tests"
-                        mkdir -p build/logs
+                        mkdir -p build/logs build/coverage-html
                         phpunit --colors=always \
                                 --display-deprecations \
                                 --do-not-fail-on-deprecation \
                                 --log-junit build/logs/junit.xml \
+                                --coverage-html build/coverage-html \
                                 -c phpunit.xml
                     else
                         echo "PHPUnit non trouvé. Veuillez l’installer globalement ou via Composer."
@@ -36,6 +37,7 @@ pipeline {
         stage('Rapport de tests') {
             steps {
                 junit 'build/logs/junit.xml'
+                archiveArtifacts artifacts: 'build/coverage-html/**', fingerprint: true
             }
         }
 
