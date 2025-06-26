@@ -1,5 +1,5 @@
 <?php
-$host = 'mariadb'; // ou '127.0.0.1' ou l'IP du conteneur MariaDB
+$host = '192.168.1.178'; 
 $db   = 'devopscar';
 $user = 'devopscar';
 $pass = 'devopscar';
