@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'karloxe/devopscar'
         DOCKER_CREDENTIALS = 'docker-hub-credentials'
+        CONTAINER_PHP = 'web1' 
     }
 
     stages {
@@ -34,10 +35,26 @@ pipeline {
         stage('Déployer avec Docker Compose') {
             steps {
                 script {
-                   sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose down" 
-                    // "&& docker-compose down"
-                   //  sh "docker build --no-cache"
-                    sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose  up -d"
+                    sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose down"
+                    sh "export BUILD_NUMBER=${BUILD_NUMBER} && docker-compose up -d"
+                }
+            }
+        }
+
+        stage('Tester la connexion PHP → MariaDB') {
+            steps {
+                script {
+                    sh """
+                        echo 'Vérification de la connexion PHP → MariaDB...'
+                        docker exec $CONTAINER_PHP curl -s http://localhost/test_db.php | tee result.log
+                        
+                        if ! grep -q 'Connexion réussie' result.log; then
+                            echo 'La connexion à MariaDB a échoué.'
+                            exit 1
+                        else
+                            echo 'Connexion validée entre PHP et MariaDB.'
+                        fi
+                    """
                 }
             }
         }
